@@ -147,7 +147,7 @@
       position: relative;
       border-radius: 10px;
       animation: fadeIn 0.4s ease;
-      overflow: auto;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -157,15 +157,19 @@
       max-width: 90vw;
     }
 
-    .modal-content.zoomed {
+    .modal-content.zoomed img {
       transform: scale(var(--zoom-scale));
+      transform-origin: center;
     }
 
     .modal-content img {
       max-width: 100%;
+      max-height: 70vh;
+      width: auto;
       height: auto;
       display: block;
       margin-bottom: 10px;
+      transition: transform 0.3s ease;
     }
 
     .zoom-controls {
@@ -321,7 +325,7 @@
       const img = document.getElementById("modalImage");
       const content = document.getElementById("modalContent");
       img.src = src;
-      content.style.setProperty('--zoom-scale', zoomScale);
+      img.style.transform = "scale(1)";
       content.classList.remove('zoomed');
       modal.style.display = "flex";
     }
@@ -331,17 +335,15 @@
     }
 
     function zoomImage(factor) {
-      const content = document.getElementById("modalContent");
+      const img = document.getElementById("modalImage");
       zoomScale *= factor;
-      content.style.setProperty('--zoom-scale', zoomScale);
-      content.classList.add('zoomed');
+      img.style.transform = `scale(${zoomScale})`;
     }
 
     function resetZoom() {
+      const img = document.getElementById("modalImage");
       zoomScale = 1;
-      const content = document.getElementById("modalContent");
-      content.style.setProperty('--zoom-scale', zoomScale);
-      content.classList.remove('zoomed');
+      img.style.transform = "scale(1)";
     }
   </script>
 </body>
