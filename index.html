@@ -14,33 +14,25 @@
       --primary-dark: #0056b3;
     }
 
-    body {
+    html, body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: background-color 0.3s ease, color 0.3s ease;
       padding: 20px;
-      position: relative;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
+    .waves-canvas {
       position: fixed;
+      z-index: -1;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background-image: url('https://www.reactbits.dev/_next/image?url=%2Fbackgrounds%2Fwaves.svg&w=2048&q=75');
-      background-size: cover;
-      opacity: 0.12;
-      filter: grayscale(100%) brightness(90%);
-    }
-
-    body.dark-mode::before {
-      filter: grayscale(100%) brightness(30%);
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      background-color: transparent;
     }
 
     body.dark-mode {
@@ -224,6 +216,7 @@
   </style>
 </head>
 <body>
+  <canvas id="waves" class="waves-canvas"></canvas>
   <button class="toggle-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
   <header>
     <h1>Jonathan King</h1>
@@ -250,19 +243,19 @@
     <div class="section-content">
       <div class="project-container">
         <div class="project">
-          <img src="1-cc1b50e2.jpg" alt="Project Two Thumbnail" onclick="showModal(this.src)">
+          <img src="25 Tompkin Group Brown CS Symposium Poster.jpg" alt="Project One Thumbnail" onclick="showModal(this.src)">
           <div class="project-description">
-            <h3>Infant Fingerprint Scanner using an FPGA</h3>
-            <p> I am currently working on a custom fingerprint sensor that will be able to capture infant biometric data. The scanner will use a deep learning model for the matching process, interfaced on an FPGA for real-time processing. This project is being overseen by Dr. Masadul Imtiaz at Clarkson University, and this project is a part of the NSF REU: Undergraduate Research in Sensor Development (Design, Manufacture, Analysis) and Implementation Pipeline (SDIP).</p>
+            <h3>View Synthesis Across Cultures: Evaluating Model Performance in Diverse Visual Contexts</h3>
+            <p>This experiment tested the generalizability of novel View Synthesis models when it came to diverse cultural contexts. We hypothesized that models would perform worse on scenes from non-eurocentric places. Instead, we found that scene complexity was likely a bigger hindrance to model performance.</p>
           </div>
         </div>
       </div>
       <div class="project-container">
         <div class="project">
-          <img src="25 Tompkin Group Brown CS Symposium Poster.jpg" alt="Project Two Thumbnail" onclick="showModal(this.src)">
+          <img src="project2.jpg" alt="Project Two Thumbnail" onclick="showModal(this.src)">
           <div class="project-description">
-            <h3>View Synthesis Across Cultures: Evaluating Model Performance in Diverse Visual Contexts</h3>
-            <p> This experiment tested the generalizability of novel View Synthesis models when it came to diverse cultural contexts. We hypothesized that models would perform worse on scenes from non-eurocentric places. Instead, we found that scene complexity was likely a bigger hindrance to model performance. This project was apart of Brown's exploreCSR 2025 Social Responsible Artificial Intelligence program and was overseen by Dr. James Tompkin.</p>
+            <h3>Project Two</h3>
+            <p>A short description of your second project. <a href="#">View Project</a></p>
           </div>
         </div>
       </div>
@@ -303,6 +296,45 @@
     function closeModal() {
       document.getElementById("imageModal").style.display = "none";
     }
+
+    // Waves background animation
+    const canvas = document.getElementById('waves');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let time = 0;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = document.body.classList.contains('dark-mode') ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+      ctx.lineWidth = 1;
+
+      const rows = 30;
+      const cols = 40;
+      const amp = 20;
+      const speedX = 0.02;
+
+      for (let y = 0; y < rows; y++) {
+        ctx.beginPath();
+        for (let x = 0; x <= cols; x++) {
+          const px = (x / cols) * width;
+          const py = (y / rows) * height + Math.sin(x * 0.5 + time * speedX + y) * amp;
+          if (x === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+
+      time += 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
   </script>
 </body>
 </html>
