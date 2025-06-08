@@ -12,18 +12,23 @@
       --text-dark: #f0f0f0;
       --primary: #007BFF;
       --primary-dark: #0056b3;
+      --section-bg-light: rgba(255, 255, 255, 0.85);
+      --section-bg-dark: rgba(30, 30, 30, 0.85);
     }
 
     html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: background-color 0.3s ease, color 0.3s ease;
-      padding: 20px;
       overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
     }
 
+    /* Canvas for waves */
     .waves-canvas {
       position: fixed;
       z-index: -1;
@@ -43,6 +48,7 @@
     header {
       text-align: center;
       padding: 50px 20px 20px;
+      background: transparent;
     }
 
     .headshot {
@@ -53,39 +59,44 @@
       margin: 20px auto;
       display: block;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: transparent;
     }
 
     nav {
       text-align: center;
       margin: 20px 0;
+      background: transparent;
     }
-
     nav a {
       margin: 0 15px;
       text-decoration: none;
       color: var(--primary);
+      background: transparent;
     }
 
     section {
       max-width: 800px;
       margin: 60px auto 20px;
+      background: transparent;
     }
 
     .section-header {
       font-size: 1.8rem;
       margin-bottom: 10px;
       padding-left: 20px;
+      color: inherit;
+      background: transparent;
     }
 
     .section-content {
-      background: #fff;
+      background: var(--section-bg-light);
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       padding: 20px;
+      transition: background 0.3s ease;
     }
-
     body.dark-mode .section-content {
-      background: #1e1e1e;
+      background: var(--section-bg-dark);
     }
 
     .project-container {
@@ -93,11 +104,11 @@
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 20px;
-      background-color: #fff;
+      background: var(--section-bg-light);
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
-
     body.dark-mode .project-container {
-      background-color: #2c2c2c;
+      background: var(--section-bg-dark);
       border-color: #444;
     }
 
@@ -106,7 +117,6 @@
       align-items: center;
       gap: 20px;
     }
-
     .project img {
       width: 150px;
       height: auto;
@@ -114,14 +124,15 @@
       cursor: pointer;
       flex-shrink: 0;
       transition: transform 0.3s ease;
+      background: transparent;
     }
-
     .project img:hover {
       transform: scale(1.05) rotate(1deg);
     }
-
     .project-description {
       flex: 1;
+      color: inherit;
+      background: transparent;
     }
 
     .modal {
@@ -136,9 +147,8 @@
       align-items: center;
       z-index: 2000;
     }
-
     .modal-content {
-      background: white;
+      background: var(--section-bg-light);
       padding: 20px;
       position: relative;
       border-radius: 10px;
@@ -149,8 +159,11 @@
       align-items: center;
       max-height: 90vh;
       max-width: 90vw;
+      transition: background 0.3s ease;
     }
-
+    body.dark-mode .modal-content {
+      background: var(--section-bg-dark);
+    }
     .modal-content img {
       max-width: 100%;
       max-height: 80vh;
@@ -158,7 +171,6 @@
       height: auto;
       display: block;
     }
-
     .close-btn {
       position: absolute;
       top: 10px;
@@ -170,14 +182,17 @@
       cursor: pointer;
       z-index: 10;
     }
+    .close-btn:hover {
+      background: #eee;
+    }
 
     footer {
       text-align: center;
       padding: 20px;
       font-size: 0.9rem;
       color: #666;
+      background: transparent;
     }
-
     body.dark-mode footer {
       color: #aaa;
     }
@@ -190,8 +205,8 @@
       color: white;
       text-decoration: none;
       border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
-
     .resume-button:hover {
       background-color: var(--primary-dark);
     }
@@ -217,7 +232,9 @@
 </head>
 <body>
   <canvas id="waves" class="waves-canvas"></canvas>
+
   <button class="toggle-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
   <header>
     <h1>Jonathan King</h1>
     <img src="IMG_0979.jpeg" alt="Headshot of Your Name" class="headshot">
@@ -243,19 +260,19 @@
     <div class="section-content">
       <div class="project-container">
         <div class="project">
-          <img src="25 Tompkin Group Brown CS Symposium Poster.jpg" alt="Project One Thumbnail" onclick="showModal(this.src)">
+          <img src="1-cc1b50e2.jpg" alt="Project One Thumbnail" onclick="showModal(this.src)">
           <div class="project-description">
-            <h3>View Synthesis Across Cultures: Evaluating Model Performance in Diverse Visual Contexts</h3>
-            <p>This experiment tested the generalizability of novel View Synthesis models when it came to diverse cultural contexts. We hypothesized that models would perform worse on scenes from non-eurocentric places. Instead, we found that scene complexity was likely a bigger hindrance to model performance.</p>
+            <h3>Infant Fingerprint Scanner using an FPGA</h3>
+            <p>I am currently working on a custom fingerprint sensor that will capture infant biometric data. The scanner uses a deep learning model on an FPGA for real-time matching. This NSF REU project is overseen by Dr. Masadul Imtiaz at Clarkson University.</p>
           </div>
         </div>
       </div>
       <div class="project-container">
         <div class="project">
-          <img src="project2.jpg" alt="Project Two Thumbnail" onclick="showModal(this.src)">
+          <img src="25 Tompkin Group Brown CS Symposium Poster.jpg" alt="Project Two Thumbnail" onclick="showModal(this.src)">
           <div class="project-description">
-            <h3>Project Two</h3>
-            <p>A short description of your second project. <a href="#">View Project</a></p>
+            <h3>View Synthesis Across Cultures: Evaluating Model Performance in Diverse Visual Contexts</h3>
+            <p>This experiment tested the generalizability of view synthesis models across cultural contexts. We hypothesized non-Eurocentric scenes would degrade performance. Instead, scene complexity was the major factor. Funded by Brown’s exploreCSR 2025 Socially Responsible AI program under Dr. James Tompkin.</p>
           </div>
         </div>
       </div>
@@ -282,17 +299,18 @@
   </div>
 
   <script>
+    // Toggle dark/light mode
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
     }
 
+    // Modal image viewer
     function showModal(src) {
       const modal = document.getElementById("imageModal");
       const img = document.getElementById("modalImage");
       img.src = src;
       modal.style.display = "flex";
     }
-
     function closeModal() {
       document.getElementById("imageModal").style.display = "none";
     }
@@ -312,7 +330,9 @@
 
     function draw() {
       ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = document.body.classList.contains('dark-mode') ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+      ctx.strokeStyle = document.body.classList.contains('dark-mode')
+        ? 'rgba(255,255,255,0.1)'
+        : 'rgba(0,0,0,0.1)';
       ctx.lineWidth = 1;
 
       const rows = 30;
